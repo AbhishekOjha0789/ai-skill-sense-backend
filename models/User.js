@@ -13,6 +13,6 @@ const UserSchema = new mongoose.Schema({
     skills: Array,
     quest_log: Array,
     settings: Object
-});
+}, { strict: false});
 
 export const User = mongoose.model("User", UserSchema);
