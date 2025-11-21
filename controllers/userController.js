@@ -1,6 +1,7 @@
-import User from "../models/User.js";
+import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
 
+// ---------------------- SIGNUP ----------------------
 export const signup = async (req, res) => {
   try {
     const { uid, password } = req.body;
@@ -18,6 +19,7 @@ export const signup = async (req, res) => {
   }
 };
 
+// ---------------------- LOGIN ----------------------
 export const login = async (req, res) => {
   try {
     const { uid, password } = req.body;
@@ -34,6 +36,7 @@ export const login = async (req, res) => {
   }
 };
 
+// ---------------------- GET USER ----------------------
 export const getUser = async (req, res) => {
   try {
     const { uid, password } = req.body;
@@ -50,6 +53,7 @@ export const getUser = async (req, res) => {
   }
 };
 
+// ---------------------- SYNC PARTIAL ----------------------
 export const syncPartial = async (req, res) => {
   try {
     const { uid, password, tables } = req.body;
@@ -60,6 +64,7 @@ export const syncPartial = async (req, res) => {
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) return res.json({ success: false, msg: "Wrong password" });
 
+    // Update only passed fields
     for (const key in tables) {
       user[key] = tables[key];
     }
@@ -72,6 +77,7 @@ export const syncPartial = async (req, res) => {
   }
 };
 
+// ---------------------- SYNC FULL USER ----------------------
 export const syncUser = async (req, res) => {
   try {
     const { uid, password, data } = req.body;
