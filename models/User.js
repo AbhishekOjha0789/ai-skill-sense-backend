@@ -1,15 +1,20 @@
-const UserSchema = new mongoose.Schema({
+import mongoose from "mongoose";
 
+const UserSchema = new mongoose.Schema({
     uid: { type: String, required: true, unique: true },
     password: String,
 
-    users: Object,             // table: users
-    personal_info: Object,     // table: personal_info
-    professional_info: Object, // table: professional_info
-    social_info: Object,       // table: social_info
-    user_points: Object,       // table: user_points
+    users: Object,
+    personal_info: Object,
+    professional_info: Object,
+    social_info: Object,
+    user_points: Object,
     
-    skills: Array,             // table: skills
-    quest_log: Array,          // table: quest_log
-    settings: Object           // table: settings
+    skills: Array,
+    quest_log: Array,
+    settings: Object
 });
+
+const User = mongoose.model("User", UserSchema);
+
+export default User;   // <-- ADD THIS LINE
