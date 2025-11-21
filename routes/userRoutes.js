@@ -40,7 +40,7 @@ router.post("/syncPartial", async (req, res) => {
   try {
     const { uid, password, tables } = req.body;
 
-    if (!uid  !password  !tables) {
+    if (!uid || !password || !tables) {
       return res.status(400).json({ success: false, message: "Missing uid/password/tables" });
     }
 
