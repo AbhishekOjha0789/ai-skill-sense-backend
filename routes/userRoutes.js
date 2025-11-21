@@ -41,7 +41,7 @@ router.post("/syncPartial", async (req, res) => {
     const { uid, password, tables } = req.body;
 
     // FIXED CONDITION
-    if (!uid  !password  !tables) {
+    if (!uid || !password || !tables) {
       return res
         .status(400)
         .json({ success: false, message: "Missing uid/password/tables" });
