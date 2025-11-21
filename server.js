@@ -16,3 +16,16 @@ app.use("/", userRoutes);
 app.listen(process.env.PORT || 4000, () =>
   console.log("Server running")
 );
+app.get("/", (req, res) => {
+  res.send("Server Running");
+});
+
+// Check MongoDB status
+app.get("/test-db", async (req, res) => {
+  try {
+    await mongoose.connection.db.admin().ping();
+    res.json({ status: "ok", mongo: "connected" });
+  } catch (e) {
+    res.json({ status: "error", mongo: e.message });
+  }
+});
