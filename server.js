@@ -13,7 +13,7 @@ app.get("/", (req, res) => res.send("Backend is Running"));
 
 app.use("/", userRoutes);
 
-port process.env.PORT || 4000;
+port = process.env.PORT || 4000;
 
 app.listen(port, () =>
   console.log("Server running on port", port)
