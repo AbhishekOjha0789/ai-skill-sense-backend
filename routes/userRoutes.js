@@ -35,47 +35,30 @@ router.post("/syncUser", async (req, res) => {
   res.json({ success: true, message: "User synced successfully", user });
 });
 
-// PARTIAL SYNC
+// ---- PARTIAL SYNC ROUTE ----
 router.post("/syncPartial", async (req, res) => {
-  try {
-    const { uid, password, tables } = req.body;
+    try {
+        const { uid, data } = req.body;
 
-    // FIXED CONDITION
-    if (!uid || !password || !tables) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing uid/password/tables" });
+        if (!uid || !data) {
+            return res.status(400).json({ message: "Missing uid or data" });
+        }
+
+        const updatedUser = await User.findOneAndUpdate(
+            { uid },
+            { $set: data },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json(updatedUser);
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-
-    let user = await User.findOne({ uid });
-
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User does not exist" });
-    }
-
-    if (user.password !== password) {
-      return res
-        .status(403)
-        .json({ success: false, message: "Wrong password" });
-    }
-
-    // Update only the changed keys
-    for (const key in tables) {
-      user[key] = tables[key];
-    }
-
-    await user.save();
-
-    return res.json({
-      success: true,
-      message: "Partial sync updated",
-      updated: tables,
-    });
-  } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
-  }
 });
 
 // GET USER (Query-based)
